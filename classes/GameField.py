@@ -4,11 +4,45 @@ from config import *
 
 class GameField:
 
-    def __init__(self, x=gamefield_cells_x, y=gamefield_cells_y):
-        self._dimension_x = x
-        self._dimension_y = y
-        self._objects_array = [[CellClass('empty', True, (0, 0, 0)) for j in range(self._dimension_x)] for i in
-                               range(self._dimension_y)]
-        print('   Field init:')
-        print('   x:', self._dimension_x)
-        print('   y:', self._dimension_y)
+    def __init__(self):
+        self._dimension_x = gamefield_cells_x
+        self._dimension_y = gamefield_cells_y
+        self._border_bot = [
+            CellClass(type='Border',
+                      movable=False,
+                      color=(255, 0, 255),
+                      matrix_coordinate_x=i,
+                      matrix_coordinate_y=0) for i in range(self._dimension_x)]
+        self._border_top = [
+            CellClass(type='Border',
+                      movable=False,
+                      color=(255, 0, 255),
+                      matrix_coordinate_x=i,
+                      matrix_coordinate_y=self._dimension_x - 1) for i in range(self._dimension_x)]
+        self._border_left = [
+            CellClass(type='Border',
+                      movable=False,
+                      color=(255, 255, 0),
+                      matrix_coordinate_x=0,
+                      matrix_coordinate_y=i) for i in range(1, self._dimension_y - 1)]
+        self._border_right = [
+            CellClass(type='Border',
+                      movable=False,
+                      color=(255, 255, 0),
+                      matrix_coordinate_x=self._dimension_x - 1,
+                      matrix_coordinate_y=i) for i in range(1, self._dimension_y - 1)]
+        self._inner_space = []
+
+        for i in range(1, self._dimension_y - 1):
+            for j in range(1, self._dimension_x - 1):
+                self._inner_space.append(CellClass(type='Empty',
+                                                   movable=False,
+                                                   color=(50, 50, 50),
+                                                   matrix_coordinate_x=i,
+                                                   matrix_coordinate_y=j))
+
+        self._objects_array = self._border_bot + self._border_top + self._border_left + self._border_right + self._inner_space
+
+
+    def drawing_prep(self):
+        return self._objects_array
