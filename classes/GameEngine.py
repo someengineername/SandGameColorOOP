@@ -1,4 +1,5 @@
 from classes.GameField import GameField
+from classes.DrawingRect import DrawingRect
 from config import *
 import pygame
 
@@ -23,7 +24,7 @@ class GameEngine:
         while run:
 
             # -------------
-            # gather inputs
+            # 1. gather inputs
             # -------------
 
             for event in pygame.event.get():
@@ -37,19 +38,38 @@ class GameEngine:
                     mouse_pressed_status = False
 
             # -------------
-            # change game variables / status
+            # 2. change game variables / status
             # -------------
 
             pass
 
             # -------------
-            # drawing a result
+            # 3. drawing a result
             # -------------
 
+            # filling back layer
             screen.fill(screen_base_color)
 
+            # init of drawing buffer
+            drawing_buffer = []
+
+            # -------------
+            #       3.1 filling drawing buffer with stuff (rects, in fact)
+            # -------------
+
+            # show white rectangle in top left when mouse button pressed and hold
             if mouse_pressed_status:
-                pygame.draw.rect(screen, (255, 255, 255), (50, 50, 50, 50))
+                drawing_buffer.append(DrawingRect((255, 255, 255), (50, 50, 50, 50)))
+
+            # add each element from game field
+            for pos in game_field.drawing_prep():
+                drawing_buffer.append(pos)
+
+            # -------------
+            #       3.2 draw each element from buffer
+            # -------------
+            for pos in drawing_buffer:
+                pygame.draw.rect(screen, pos.get_color(), pos.get_rect())
 
             pygame.display.update()
 
