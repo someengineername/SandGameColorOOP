@@ -2,6 +2,7 @@ from classes.GameField import GameField
 from classes.DrawingRect import DrawingRect
 from config import *
 import pygame
+import time
 
 
 class GameEngine:
@@ -41,9 +42,7 @@ class GameEngine:
             # 2. change game variables / status
             # -------------
 
-            # TODO update GameField by each tick
-
-            # game_field.update()
+            game_field.update()
 
             # TODO mouse interaction - place moving block by coordinates of a click
 
@@ -61,8 +60,6 @@ class GameEngine:
             #       3.1 filling drawing buffer with stuff (rects, in fact)
             # -------------
 
-
-
             # add each element from game field
             for pos in game_field.drawing_prep():
                 drawing_buffer.append(pos)
@@ -77,6 +74,9 @@ class GameEngine:
             for pos in drawing_buffer:
                 pygame.draw.rect(screen, pos.get_color(), pos.get_rect())
 
+
+            time.sleep(0.1)
+            # print(game_field.get_status())
             pygame.display.update()
 
         pygame.quit()

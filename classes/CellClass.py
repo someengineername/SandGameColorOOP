@@ -1,5 +1,3 @@
-from config import *
-
 
 class CellClass:
 
@@ -38,4 +36,7 @@ class CellClass:
         return self._movable
 
     def __repr__(self):
-        return f'{self._type} {self._matrix_coordinate_x}-{self._matrix_coordinate_y}'
+        return f'{self._type}'
+
+    def set_movable(self, b1: bool):
+        self._movable = b1
