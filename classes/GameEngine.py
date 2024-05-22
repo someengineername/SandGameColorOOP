@@ -24,6 +24,8 @@ class GameEngine:
 
         while run:
 
+            # mouse_matrix_position = [0, 0]
+
             # -------------
             # 1. gather inputs
             # -------------
@@ -35,6 +37,14 @@ class GameEngine:
                 # mouse interaction event
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pressed_status = True
+
+                    mouse_coordinates = pygame.mouse.get_pos()
+                    mouse_matrix_position = [mouse_coordinates[0] // (cell_length + cell_gap),
+                                             (screen_height - mouse_coordinates[1]) // (cell_length + cell_gap)]
+                    game_field.create_block(mouse_matrix_position[0], mouse_matrix_position[1])
+
+                    print(mouse_coordinates, mouse_matrix_position)
+
                 if event.type == pygame.MOUSEBUTTONUP:
                     mouse_pressed_status = False
 
@@ -43,6 +53,16 @@ class GameEngine:
             # -------------
 
             game_field.update()
+
+            if pygame.mouse.get_focused():
+
+                mouse_coordinates = pygame.mouse.get_pos()
+                mouse_matrix_position = [mouse_coordinates[0] // (cell_length + cell_gap),
+                                         (screen_height - mouse_coordinates[1]) // (cell_length + cell_gap)]
+
+                game_field.create_block(mouse_matrix_position[0], mouse_matrix_position[1])
+
+
 
             # TODO mouse interaction - place moving block by coordinates of a click
 
@@ -74,8 +94,7 @@ class GameEngine:
             for pos in drawing_buffer:
                 pygame.draw.rect(screen, pos.get_color(), pos.get_rect())
 
-
-            time.sleep(0.1)
+            time.sleep(0.01)
             # print(game_field.get_status())
             pygame.display.update()
 

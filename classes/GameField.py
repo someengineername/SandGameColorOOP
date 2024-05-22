@@ -95,3 +95,11 @@ class GameField:
 
     def get_status(self):
         return f'Field check: {self._dimension_x * self._dimension_x == len(self._gamefield_dict)}'
+
+    def create_block(self, coor_x, coor_y):
+
+        bottom_cell = self._gamefield_dict[(coor_x, coor_y - 1)]
+
+        if self._gamefield_dict[(coor_x,coor_y)].get_type() == 'Empty' and bottom_cell.get_type() == 'Empty':
+            self._gamefield_dict[(coor_x,coor_y)] = CellClass(block_type='Block', movable=True)
+
