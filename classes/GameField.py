@@ -99,13 +99,26 @@ class GameField:
 
     def create_block(self, coor_x, coor_y):
 
-        try:
-            bottom_cell = self._gamefield_dict[(coor_x, coor_y - 1)]
-            if self._gamefield_dict[(coor_x, coor_y)].get_type() == 'Empty' and bottom_cell.get_type() == 'Empty':
-                self._gamefield_dict[(coor_x, coor_y)] = CellClass(block_type='Block', color=self.get_color_cycle(),
+        points_count = random.randint(1, 3)
+        new_color = self.get_color_cycle()
+        for i in range(points_count):
+
+            try:
+
+                coor_x = random.randint(-2, +2) + coor_x
+                coor_y = random.randint(-2, +2) + coor_y
+                self._gamefield_dict[(coor_x, coor_y)] = CellClass(block_type='Block', color=new_color,
                                                                    movable=True)
-        except:
-            pass
+            except:
+                pass
+        #
+        # try:
+        #     bottom_cell = self._gamefield_dict[(coor_x, coor_y - 1)]
+        #     if self._gamefield_dict[(coor_x, coor_y)].get_type() == 'Empty' and bottom_cell.get_type() == 'Empty':
+        #         self._gamefield_dict[(coor_x, coor_y)] = CellClass(block_type='Block', color=self.get_color_cycle(),
+        #                                                            movable=True)
+        # except:
+        #     pass
 
     def get_color_cycle(self):
 

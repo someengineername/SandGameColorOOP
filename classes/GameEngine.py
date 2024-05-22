@@ -43,8 +43,6 @@ class GameEngine:
                                              (screen_height - mouse_coordinates[1]) // (cell_length + cell_gap)]
                     game_field.create_block(mouse_matrix_position[0], mouse_matrix_position[1])
 
-                    print(mouse_coordinates, mouse_matrix_position)
-
                 if event.type == pygame.MOUSEBUTTONUP:
                     mouse_pressed_status = False
 
