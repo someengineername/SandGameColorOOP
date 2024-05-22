@@ -44,11 +44,29 @@ class GameField:
         self._objects_array = self._border_bot + self._border_top + self._border_left + self._border_right + self._inner_space
 
         # print(len(self._objects_array))
-        print(gamefield_cells_y * gamefield_cells_x == len(self._objects_array))
-
+        print('Field check:', gamefield_cells_y * gamefield_cells_x == len(self._objects_array))
 
     def drawing_prep(self):
-        return self._objects_array
-
+        return filter(lambda x: x.get_type() == 'Empty', self._objects_array)
 
     # TODO tick field update
+
+    def update(self):
+
+        # go through list of movable objects and apply actions for them:
+        for pos in filter(lambda x: x.is_movable(), self._objects_array):
+            pass
+
+    # TODO swap places in case of straight falling
+    def swap_places(self):
+        return False
+
+    # TODO droppping section!!!
+    def drop_left(self):
+        return False
+
+    def drop_right(self):
+        return False
+
+    def drop_split_chances(self):
+        return False

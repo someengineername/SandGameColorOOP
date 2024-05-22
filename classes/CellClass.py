@@ -20,14 +20,11 @@ class CellClass:
     def get_color(self):
         return self._color
 
+    def is_movable(self):
+        return self._movable
+
     def __repr__(self):
         return f'{self._type} {self._matrix_coordinate_x}-{self._matrix_coordinate_y}'
-
-    def get_matrix_coordinate_x(self):
-        return self._matrix_coordinate_x
-
-    def get_matrix_coordinate_y(self):
-        return self._matrix_coordinate_y
 
     def get_rect(self):
         return (

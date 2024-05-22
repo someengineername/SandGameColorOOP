@@ -43,7 +43,9 @@ class GameEngine:
 
             # TODO update GameField by each tick
 
-            # TODO mouse interaction
+            game_field.update()
+
+            # TODO mouse interaction - place moving block by coordinates of a click
 
             # -------------
             # 3. drawing a result
