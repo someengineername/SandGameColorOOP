@@ -1,5 +1,5 @@
-gamefield_cells_x = 40
-gamefield_cells_y = 40
+gamefield_cells_x = 100
+gamefield_cells_y = 100
 cell_length = 6
 cell_gap = 1
 screen_width = (cell_gap + cell_length) * gamefield_cells_x + cell_gap

@@ -18,7 +18,7 @@ class GameField:
                       movable=False,
                       color=(255, 0, 255),
                       matrix_coordinate_x=i,
-                      matrix_coordinate_y=self._dimension_x - 1) for i in range(self._dimension_x)]
+                      matrix_coordinate_y=self._dimension_y - 1) for i in range(self._dimension_x)]
         self._border_left = [
             CellClass(type='Border',
                       movable=False,
@@ -33,8 +33,8 @@ class GameField:
                       matrix_coordinate_y=i) for i in range(1, self._dimension_y - 1)]
         self._inner_space = []
 
-        for i in range(1, self._dimension_y - 1):
-            for j in range(1, self._dimension_x - 1):
+        for i in range(1, self._dimension_x - 1):
+            for j in range(1, self._dimension_y - 1):
                 self._inner_space.append(CellClass(type='Empty',
                                                    movable=False,
                                                    color=(50, 50, 50),
@@ -43,6 +43,12 @@ class GameField:
 
         self._objects_array = self._border_bot + self._border_top + self._border_left + self._border_right + self._inner_space
 
+        # print(len(self._objects_array))
+        print(gamefield_cells_y * gamefield_cells_x == len(self._objects_array))
+
 
     def drawing_prep(self):
         return self._objects_array
+
+
+    # TODO tick field update

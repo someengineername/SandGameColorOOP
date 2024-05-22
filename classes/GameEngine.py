@@ -41,7 +41,9 @@ class GameEngine:
             # 2. change game variables / status
             # -------------
 
-            pass
+            # TODO update GameField by each tick
+
+            # TODO mouse interaction
 
             # -------------
             # 3. drawing a result
