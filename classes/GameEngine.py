@@ -38,11 +38,6 @@ class GameEngine:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pressed_status = True
 
-                    mouse_coordinates = pygame.mouse.get_pos()
-                    mouse_matrix_position = [mouse_coordinates[0] // (cell_length + cell_gap),
-                                             (screen_height - mouse_coordinates[1]) // (cell_length + cell_gap)]
-                    game_field.create_block(mouse_matrix_position[0], mouse_matrix_position[1])
-
                 if event.type == pygame.MOUSEBUTTONUP:
                     mouse_pressed_status = False
 
@@ -59,10 +54,6 @@ class GameEngine:
                                          (screen_height - mouse_coordinates[1]) // (cell_length + cell_gap)]
 
                 game_field.create_block(mouse_matrix_position[0], mouse_matrix_position[1])
-
-
-
-            # TODO mouse interaction - place moving block by coordinates of a click
 
             # -------------
             # 3. drawing a result
@@ -83,8 +74,8 @@ class GameEngine:
                 drawing_buffer.append(pos)
 
             # show white rectangle in top left when mouse button pressed and hold
-            if mouse_pressed_status:
-                drawing_buffer.append(DrawingRect((255, 255, 255), (50, 50, 50, 50)))
+            # if mouse_pressed_status:
+            #     drawing_buffer.append(DrawingRect((255, 255, 255), (50, 50, 50, 50)))
 
             # -------------
             #       3.2 draw each element from buffer
