@@ -1,4 +1,5 @@
 from classes.CellClass import CellClass
+from classes.DrawingRect import DrawingRect
 from config import *
 
 
@@ -7,55 +8,49 @@ class GameField:
     def __init__(self):
         self._dimension_x = gamefield_cells_x
         self._dimension_y = gamefield_cells_y
-        self._border_bot = [
-            CellClass(type='Border',
-                      movable=False,
-                      color=(255, 0, 255),
-                      matrix_coordinate_x=i,
-                      matrix_coordinate_y=0) for i in range(self._dimension_x)]
-        self._border_top = [
-            CellClass(type='Border',
-                      movable=False,
-                      color=(255, 0, 255),
-                      matrix_coordinate_x=i,
-                      matrix_coordinate_y=self._dimension_y - 1) for i in range(self._dimension_x)]
-        self._border_left = [
-            CellClass(type='Border',
-                      movable=False,
-                      color=(255, 255, 0),
-                      matrix_coordinate_x=0,
-                      matrix_coordinate_y=i) for i in range(1, self._dimension_y - 1)]
-        self._border_right = [
-            CellClass(type='Border',
-                      movable=False,
-                      color=(255, 255, 0),
-                      matrix_coordinate_x=self._dimension_x - 1,
-                      matrix_coordinate_y=i) for i in range(1, self._dimension_y - 1)]
-        self._inner_space = []
+        self._objects_array = []
 
-        for i in range(1, self._dimension_x - 1):
-            for j in range(1, self._dimension_y - 1):
-                self._inner_space.append(CellClass(type='Empty',
-                                                   movable=False,
-                                                   color=(50, 50, 50),
-                                                   matrix_coordinate_x=i,
-                                                   matrix_coordinate_y=j))
+        self._gamefield_dict = dict()
 
-        self._objects_array = self._border_bot + self._border_top + self._border_left + self._border_right + self._inner_space
+        for i in range(self._dimension_x):
+            self._gamefield_dict.setdefault((i, 0),
+                                            CellClass('Border', False))
 
-        # print(len(self._objects_array))
-        print('Field check:', gamefield_cells_y * gamefield_cells_x == len(self._objects_array))
+        for i in range(self._dimension_x):
+            self._gamefield_dict.setdefault((i, self._dimension_y - 1),
+                                            CellClass('Border', False))
+
+        for j in range(1, self._dimension_y - 1):
+            self._gamefield_dict.setdefault((0, j),
+                                            CellClass('Border', False))
+
+        for j in range(1, self._dimension_y - 1):
+            self._gamefield_dict.setdefault((self._dimension_x - 1, j),
+                                            CellClass('Border', False))
+
+        for j in range(1, self._dimension_y - 1):
+            for i in range(1, self._dimension_x - 1):
+                self._gamefield_dict.setdefault((i, j),
+                                                CellClass(block_type='Empty',
+                                                          movable=False,)
+                                                )
+
+        print('Field check:', self._dimension_x * self._dimension_x == len(self._gamefield_dict))
 
     def drawing_prep(self):
-        return filter(lambda x: x.get_type() == 'Empty', self._objects_array)
+        test_list = [DrawingRect(j.get_color(), (cell_gap + ((cell_length + cell_gap) * i[0]),
+                                                 screen_height - cell_gap - cell_length - (
+                                                         cell_gap + cell_length) * i[1],
+                                                 cell_length, cell_length)) for i, j in self._gamefield_dict.items()]
+        return test_list
 
     # TODO tick field update
 
-    def update(self):
-
-        # go through list of movable objects and apply actions for them:
-        for pos in filter(lambda x: x.is_movable(), self._objects_array):
-            pass
+    # def update(self):
+    #
+    #     go through list of movable objects and apply actions for them:
+    # for pos in filter(lambda x: x.is_movable(), self._objects_array):
+    #     pass
 
     # TODO swap places in case of straight falling
     def swap_places(self):
@@ -70,3 +65,6 @@ class GameField:
 
     def drop_split_chances(self):
         return False
+
+    def get_status_gamefield(self):
+        return self._gamefield_dict

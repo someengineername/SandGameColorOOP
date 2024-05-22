@@ -43,7 +43,7 @@ class GameEngine:
 
             # TODO update GameField by each tick
 
-            game_field.update()
+            # game_field.update()
 
             # TODO mouse interaction - place moving block by coordinates of a click
 
@@ -61,13 +61,15 @@ class GameEngine:
             #       3.1 filling drawing buffer with stuff (rects, in fact)
             # -------------
 
-            # show white rectangle in top left when mouse button pressed and hold
-            if mouse_pressed_status:
-                drawing_buffer.append(DrawingRect((255, 255, 255), (50, 50, 50, 50)))
+
 
             # add each element from game field
             for pos in game_field.drawing_prep():
                 drawing_buffer.append(pos)
+
+            # show white rectangle in top left when mouse button pressed and hold
+            if mouse_pressed_status:
+                drawing_buffer.append(DrawingRect((255, 255, 255), (50, 50, 50, 50)))
 
             # -------------
             #       3.2 draw each element from buffer

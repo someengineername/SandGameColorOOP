@@ -3,16 +3,30 @@ from config import *
 
 class CellClass:
 
-    def __init__(self, type: str, movable: bool, color: tuple, matrix_coordinate_x=0, matrix_coordinate_y=0):
+    def __init__(self,
+                 block_type: str,
+                 movable: bool = False,
+                 color: tuple = None):
+
         cell_types = {'Empty', 'Border', 'Block'}
 
-        if type not in cell_types:
+        if block_type not in cell_types:
             raise Exception('Wrong cell type!')
-        self._type = type
+
+        self._type = block_type
         self._movable = movable
-        self._color = color
-        self._matrix_coordinate_x = matrix_coordinate_x
-        self._matrix_coordinate_y = matrix_coordinate_y
+
+        self._color = (0, 0, 0)
+        if color is None:
+            match self._type:
+                case 'Empty':
+                    self._color = (100, 100, 100)
+                case 'Border':
+                    self._color = (255, 0, 255)
+                case 'Block':
+                    self._color = (255, 255, 255)
+                case _:
+                    self._color = (255, 0, 0)
 
     def get_type(self):
         return self._type
@@ -25,9 +39,3 @@ class CellClass:
 
     def __repr__(self):
         return f'{self._type} {self._matrix_coordinate_x}-{self._matrix_coordinate_y}'
-
-    def get_rect(self):
-        return (
-            cell_gap + ((cell_length + cell_gap) * self._matrix_coordinate_x),
-            screen_height - cell_gap - cell_length - (
-                    cell_gap + cell_length) * self._matrix_coordinate_y, cell_length, cell_length)
