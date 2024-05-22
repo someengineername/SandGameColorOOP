@@ -14,8 +14,10 @@ class CellClass:
         self._type = block_type
         self._movable = movable
 
-        self._color = (0, 0, 0)
+        self._color = color
+
         if color is None:
+            # print('here')
             match self._type:
                 case 'Empty':
                     self._color = (100, 100, 100)
@@ -24,6 +26,7 @@ class CellClass:
                 case 'Block':
                     self._color = (255, 255, 255)
                 case _:
+                    print('!')
                     self._color = (255, 0, 0)
 
     def get_type(self):

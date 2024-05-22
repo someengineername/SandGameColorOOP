@@ -9,9 +9,14 @@ class GameField:
     def __init__(self):
         self._dimension_x = gamefield_cells_x
         self._dimension_y = gamefield_cells_y
-
         self._gamefield_dict = dict()
 
+        self._color = [255, 0, 0]
+        self._speed = 5
+
+        self.field_filling_default_data()
+
+    def field_filling_default_data(self):
         for i in range(self._dimension_x):
             self._gamefield_dict.setdefault((i, 0),
                                             CellClass('Border', False))
@@ -35,16 +40,12 @@ class GameField:
                                                           movable=True, )
                                                 )
 
-
-        self._gamefield_dict[(4,4)] = CellClass(block_type='Block', movable=True)
-
-        print('Field check:', self._dimension_x * self._dimension_x == len(self._gamefield_dict))
-
     def drawing_prep(self):
         return [DrawingRect(j.get_color(), (cell_gap + ((cell_length + cell_gap) * i[0]),
                                             screen_height - cell_gap - cell_length - (
                                                     cell_gap + cell_length) * i[1],
-                                            cell_length, cell_length)) for i, j in self._gamefield_dict.items()]
+                                            cell_length, cell_length)) for i, j in self._gamefield_dict.items() if
+                not j.get_type() == 'Border']
 
     def update(self):
         # go through list of movable objects and apply actions for them:
@@ -98,8 +99,36 @@ class GameField:
 
     def create_block(self, coor_x, coor_y):
 
-        bottom_cell = self._gamefield_dict[(coor_x, coor_y - 1)]
+        try:
+            bottom_cell = self._gamefield_dict[(coor_x, coor_y - 1)]
+            if self._gamefield_dict[(coor_x, coor_y)].get_type() == 'Empty' and bottom_cell.get_type() == 'Empty':
+                self._gamefield_dict[(coor_x, coor_y)] = CellClass(block_type='Block', color=self.get_color_cycle(),
+                                                                   movable=True)
+        except:
+            pass
 
-        if self._gamefield_dict[(coor_x,coor_y)].get_type() == 'Empty' and bottom_cell.get_type() == 'Empty':
-            self._gamefield_dict[(coor_x,coor_y)] = CellClass(block_type='Block', movable=True)
+    def get_color_cycle(self):
 
+        if self._color[0] == 255 and 255 > self._color[1] >= 0 and self._color[2] == 0:
+            self._color[1] += self._speed
+            return self._color[0], self._color[1], self._color[2]
+
+        elif 0 < self._color[0] <= 255 and self._color[1] == 255 and self._color[2] == 0:
+            self._color[0] -= self._speed
+            return self._color[0], self._color[1], self._color[2]
+
+        elif self._color[0] == 0 and self._color[1] == 255 and 255 > self._color[2] >= 0:
+            self._color[2] += self._speed
+            return self._color[0], self._color[1], self._color[2]
+
+        elif self._color[0] == 0 and 0 < self._color[1] <= 255 and self._color[2] == 255:
+            self._color[1] -= self._speed
+            return self._color[0], self._color[1], self._color[2]
+
+        elif 0 <= self._color[0] < 255 and self._color[1] == 0 and self._color[2] == 255:
+            self._color[0] += self._speed
+            return self._color[0], self._color[1], self._color[2]
+
+        elif self._color[0] == 255 and self._color[1] == 0 and 0 <= self._color[2] <= 255:
+            self._color[2] -= self._speed
+            return self._color[0], self._color[1], self._color[2]

@@ -94,8 +94,7 @@ class GameEngine:
             for pos in drawing_buffer:
                 pygame.draw.rect(screen, pos.get_color(), pos.get_rect())
 
-            time.sleep(0.01)
-            # print(game_field.get_status())
+            time.sleep(0.001)
             pygame.display.update()
 
         pygame.quit()
