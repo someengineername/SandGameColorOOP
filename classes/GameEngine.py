@@ -1,5 +1,4 @@
 from classes.GameField import GameField
-from classes.DrawingRect import DrawingRect
 from config import *
 import pygame
 import time
@@ -72,10 +71,6 @@ class GameEngine:
             # add each element from game field
             for pos in game_field.drawing_prep():
                 drawing_buffer.append(pos)
-
-            # show white rectangle in top left when mouse button pressed and hold
-            # if mouse_pressed_status:
-            #     drawing_buffer.append(DrawingRect((255, 255, 255), (50, 50, 50, 50)))
 
             # -------------
             #       3.2 draw each element from buffer

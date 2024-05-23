@@ -10,9 +10,8 @@ class GameField:
         self._dimension_x = gamefield_cells_x
         self._dimension_y = gamefield_cells_y
         self._gamefield_dict = dict()
-
         self._color = [255, 0, 0]
-        self._speed = 5
+        self._speed = 1
 
         self.field_filling_default_data()
 
@@ -51,7 +50,7 @@ class GameField:
         # go through list of movable objects and apply actions for them:
 
         for cell_coor, cell_object in {k: v for k, v in self._gamefield_dict.items() if
-                                       v.get_type() == 'Block'}.items():
+                                       v.get_type() == 'Block' and v.is_movable()}.items():
 
             coor_x = cell_coor[0]
             coor_y = cell_coor[1]
@@ -61,18 +60,18 @@ class GameField:
             bottom_right_cell = self._gamefield_dict[(coor_x + 1, coor_y - 1)]
 
             # if everything's not movable - stop moving
-            if not bottom_left_cell.is_movable() and not bottom_right_cell.is_movable() and not bottom_cell.is_movable():
+            if not bottom_left_cell.get_type() == 'Empty' and not bottom_right_cell.get_type() == 'Empty' and not bottom_cell.get_type() == 'Empty':
                 self._gamefield_dict[cell_coor].set_movable(False)
             # if left open - drop left
-            elif not bottom_cell.is_movable() and not bottom_right_cell.is_movable():
+            elif not bottom_cell.get_type() == 'Empty' and not bottom_right_cell.get_type() == 'Empty':
                 self.drop_left(coor_x, coor_y)
             # if right open - right drop
-            elif not bottom_cell.is_movable() and not bottom_left_cell.is_movable():
+            elif not bottom_cell.get_type() == 'Empty' and not bottom_left_cell.get_type() == 'Empty':
                 self.drop_right(coor_x, coor_y)
-            elif not bottom_cell.is_movable() and bottom_left_cell.is_movable() and bottom_right_cell.is_movable():
+            elif not bottom_cell.get_type() == 'Empty' and bottom_left_cell.is_movable() and bottom_right_cell.get_type() == 'Empty':
                 self.drop_split_chances(coor_x, coor_y)
             # if center bottom open - drop into it
-            elif bottom_cell.is_movable():
+            elif bottom_cell.get_type() == 'Empty':
                 self.swap_places(coor_x, coor_y)
 
     def swap_places(self, coor_x, coor_y):
@@ -99,13 +98,13 @@ class GameField:
 
     def create_block(self, coor_x, coor_y):
 
-        points_count = random.randint(1, 3)
+        points_count = random.randint(1, 2)
         new_color = self.get_color_cycle()
         for i in range(points_count):
 
             try:
-                coor_x = random.randint(-2, +2) + coor_x
-                coor_y = random.randint(-2, +2) + coor_y
+                coor_x = random.randint(- 6, + 6) + coor_x
+                coor_y = random.randint(- 6, + 6) + coor_y
 
                 if self._gamefield_dict[(coor_x,coor_y)].is_movable():
 
