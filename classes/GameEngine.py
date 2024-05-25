@@ -12,6 +12,12 @@ class GameEngine:
         pygame.init()
         game_field = GameField()
 
+        # icon change
+        new_icon = pygame.image.load('icon.png')
+        pygame.display.set_icon(new_icon)
+        pygame.display.set_caption('SandGameColorOOP')
+
+
         # pygame screen init
         screen = pygame.display.set_mode((screen_width, screen_height))
 
@@ -46,7 +52,7 @@ class GameEngine:
 
             game_field.update()
 
-            if pygame.mouse.get_focused():
+            if pygame.mouse.get_focused() and mouse_pressed_status:
 
                 mouse_coordinates = pygame.mouse.get_pos()
                 mouse_matrix_position = [mouse_coordinates[0] // (cell_length + cell_gap),
