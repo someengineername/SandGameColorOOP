@@ -8,7 +8,6 @@ class GameEngine:
     @staticmethod
     def start_game():
 
-
         # init of pygame and game field
         pygame.init()
         game_field = GameField()
